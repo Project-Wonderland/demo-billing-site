@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Billing Module - Organic Health CRM</title>
+    <title>Dress Shop Billing System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -14,2150 +14,1051 @@
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); } 
+            to { opacity: 1; transform: translateY(0); }
         }
-        .slide-in {
-            animation: slideIn 0.3s ease-out;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
+        .status-paid { background: linear-gradient(135deg, #10b981, #059669); }
+        .status-pending { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .status-excess { background: linear-gradient(135deg, #3b82f6, #2563eb); }
     </style>
 </head>
-<body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-full">
-    <!-- Navigation Bar -->
-    <nav class="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-40">
-        <div class="container mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <!-- Logo and Brand -->
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <h1 class="text-2xl font-bold text-green-600 flex items-center">
-                            🌿 Organic Health CRM
-                        </h1>
-                    </div>
-                </div>
+<body class="bg-gradient-to-br from-purple-50 to-pink-50 min-h-full">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-purple-800 mb-2">Elegant Dress Shop</h1>
+            <p class="text-gray-600">Billing & Invoice Management System</p>
+        </header>
 
-                <!-- Main Navigation -->
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#dashboard" onclick="showDashboardPage()" class="text-gray-600 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            📊 Dashboard
-                        </a>
-                        <a href="#customers" onclick="showCustomersPage()" class="text-gray-600 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            👥 Customers
-                        </a>
-                        <a href="#products" onclick="showProductsPage()" class="text-gray-600 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            📦 Products
-                        </a>
-                        
-                        <!-- Billing Dropdown -->
-                        <div class="relative" id="billingDropdown">
-                            <button onclick="toggleBillingMenu()" class="bg-green-100 text-green-800 px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors">
-                                💰 Billing
-                                <svg class="ml-1 h-4 w-4 transition-transform" id="billingChevron" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <div id="billingMenu" class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                <div class="py-1">
-                                    <a href="#invoices" onclick="showInvoicesView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        📋 Invoices
-                                    </a>
-                                    <a href="#payments" onclick="showPaymentsView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        💳 Payments
-                                    </a>
-                                    <a href="#credits" onclick="showCreditsView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        💰 Customer Credits
-                                    </a>
-                                    <a href="#reports" onclick="showReportsView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        📊 Financial Reports
-                                    </a>
-                                    <hr class="my-1">
-                                    <a href="#settings" onclick="showBillingSettings()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        ⚙️ Billing Settings
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="#orders" onclick="showOrdersPage()" class="text-gray-600 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            📋 Orders
-                        </a>
-                        
-                        <!-- Content Management Dropdown -->
-                        <div class="relative" id="contentDropdown">
-                            <button onclick="toggleContentMenu()" class="text-gray-600 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors">
-                                📝 Content
-                                <svg class="ml-1 h-4 w-4 transition-transform" id="contentChevron" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <div id="contentMenu" class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                <div class="py-1">
-                                    <a href="#pages" onclick="showPagesView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        📄 Pages
-                                    </a>
-                                    <a href="#blog" onclick="showBlogView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        📰 Blog Posts
-                                    </a>
-                                    <a href="#media" onclick="showMediaView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        🖼️ Media Library
-                                    </a>
-                                    <a href="#menus" onclick="showMenusView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        🧭 Navigation Menus
-                                    </a>
-                                    <hr class="my-1">
-                                    <a href="#seo" onclick="showSEOView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        🔍 SEO Settings
-                                    </a>
-                                    <a href="#themes" onclick="showThemesView()" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        🎨 Themes
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="#reports" class="text-gray-600 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            📈 Reports
-                        </a>
-                    </div>
-                </div>
-
-                <!-- User Menu -->
-                <div class="hidden md:block">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <button class="bg-gray-100 p-2 rounded-full text-gray-600 hover:text-gray-800 hover:bg-gray-200 transition-colors">
-                            🔔
-                        </button>
-                        <div class="ml-3 relative">
-                            <button onclick="toggleUserMenu()" class="max-w-xs bg-gray-100 rounded-full flex items-center text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-200 transition-colors px-3 py-2">
-                                👤 Admin User
-                                <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                <div class="py-1">
-                                    <a href="#profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                                    <a href="#settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                    <a href="#logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button onclick="toggleMobileMenu()" class="bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-800 hover:bg-gray-200">
-                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Menu -->
-        <div id="mobileMenu" class="hidden md:hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
-                <a href="#dashboard" onclick="showDashboardPage()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">📊 Dashboard</a>
-                <a href="#customers" onclick="showCustomersPage()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">👥 Customers</a>
-                <a href="#products" onclick="showProductsPage()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">📦 Products</a>
-                
-                <!-- Mobile Billing Section -->
-                <div class="border-t border-gray-200 pt-2 mt-2">
-                    <div class="px-3 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">Billing</div>
-                    <a href="#invoices" onclick="showInvoicesView()" class="text-green-800 bg-green-100 block px-3 py-2 rounded-md text-base font-medium">📋 Invoices</a>
-                    <a href="#payments" onclick="showPaymentsView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">💳 Payments</a>
-                    <a href="#credits" onclick="showCreditsView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">💰 Customer Credits</a>
-                    <a href="#reports" onclick="showReportsView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">📊 Financial Reports</a>
-                    <a href="#settings" onclick="showBillingSettings()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">⚙️ Billing Settings</a>
-                </div>
-                
-                <a href="#orders" onclick="showOrdersPage()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">📋 Orders</a>
-                
-                <!-- Mobile Content Section -->
-                <div class="border-t border-gray-200 pt-2 mt-2">
-                    <div class="px-3 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">Content Management</div>
-                    <a href="#pages" onclick="showPagesView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">📄 Pages</a>
-                    <a href="#blog" onclick="showBlogView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">📰 Blog Posts</a>
-                    <a href="#media" onclick="showMediaView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">🖼️ Media Library</a>
-                    <a href="#menus" onclick="showMenusView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">🧭 Navigation</a>
-                    <a href="#seo" onclick="showSEOView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">🔍 SEO Settings</a>
-                    <a href="#themes" onclick="showThemesView()" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">🎨 Themes</a>
-                </div>
-                
-                <a href="#reports" class="text-gray-600 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">📈 Reports</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mx-auto px-6 py-8">
-        <!-- Page Header -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-800 flex items-center">
-                        💰 Billing Dashboard
-                    </h1>
-                    <p class="text-gray-600 mt-2">Manage invoices and payments for organic health products</p>
-                </div>
-                <button onclick="showCreateInvoice()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center">
-                    ➕ New Invoice
+        <!-- Navigation Tabs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-lg shadow-lg p-1 flex">
+                <button id="searchTab" class="px-6 py-3 rounded-md font-medium transition-all bg-purple-600 text-white">
+                    Search Invoices
+                </button>
+                <button id="newInvoiceTab" class="px-6 py-3 rounded-md font-medium transition-all text-purple-600 hover:bg-purple-50">
+                    New Invoice
+                </button>
+                <button id="reportsTab" class="px-6 py-3 rounded-md font-medium transition-all text-purple-600 hover:bg-purple-50">
+                    Reports
                 </button>
             </div>
         </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center">
-                    <div class="bg-green-100 p-3 rounded-full">
-                        <span class="text-2xl">💰</span>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-600 text-sm">Total Revenue</p>
-                        <p class="text-2xl font-bold text-gray-800">$24,580</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center">
-                    <div class="bg-blue-100 p-3 rounded-full">
-                        <span class="text-2xl">📋</span>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-600 text-sm">Active Invoices</p>
-                        <p class="text-2xl font-bold text-gray-800">12</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center">
-                    <div class="bg-purple-100 p-3 rounded-full">
-                        <span class="text-2xl">💳</span>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-600 text-sm">Customer Credits</p>
-                        <p class="text-2xl font-bold text-gray-800">$1,245</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center">
-                    <div class="bg-yellow-100 p-3 rounded-full">
-                        <span class="text-2xl">⏳</span>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-600 text-sm">Pending</p>
-                        <p class="text-2xl font-bold text-gray-800">$3,240</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center">
-                    <div class="bg-red-100 p-3 rounded-full">
-                        <span class="text-2xl">⚠️</span>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-600 text-sm">Overdue</p>
-                        <p class="text-2xl font-bold text-gray-800">$890</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Filters and Search -->
-        <div class="bg-white rounded-xl shadow-lg p-4 lg:p-6 mb-8">
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                <div class="flex-1 min-w-0">
-                    <input type="text" placeholder="Search invoices..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                </div>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 min-w-0">
-                        <option>All Status</option>
-                        <option>Paid</option>
-                        <option>Pending</option>
-                        <option>Overdue</option>
-                    </select>
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 min-w-0">
-                        <option>All Products</option>
-                        <option>Supplements</option>
-                        <option>Essential Oils</option>
-                        <option>Herbal Teas</option>
-                        <option>Organic Foods</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Invoices Table -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="p-6 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-800">Recent Invoices</h2>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Invoice #</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Customer</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Products</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Amount</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Status</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Credit Balance</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Due Date</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="invoicesTable" class="divide-y divide-gray-200">
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">#INV-001</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">Sarah Johnson</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">🌿 Turmeric Capsules, 🫖 Green Tea</td>
-                            <td class="px-6 py-4 text-sm font-semibold text-gray-900">$89.50</td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Paid</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <span class="text-purple-600 font-semibold">$125.00</span>
-                                    <span class="ml-2 px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">Active</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">Dec 15, 2024</td>
-                            <td class="px-6 py-4">
-                                <button onclick="viewInvoice('INV-001')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                <button onclick="downloadInvoice('INV-001')" class="text-green-600 hover:text-green-800 text-sm font-medium">Download</button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">#INV-002</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">Mike Chen</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">🌿 Vitamin D3, 🥥 MCT Oil</td>
-                            <td class="px-6 py-4 text-sm font-semibold text-gray-900">$124.00</td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <span class="text-purple-600 font-semibold">$75.50</span>
-                                    <span class="ml-2 px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">Active</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">Dec 20, 2024</td>
-                            <td class="px-6 py-4">
-                                <button onclick="viewInvoice('INV-002')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                <button onclick="sendReminder('INV-002')" class="text-orange-600 hover:text-orange-800 text-sm font-medium">Remind</button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">#INV-003</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">Emma Wilson</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">🌸 Lavender Oil, 🍯 Manuka Honey</td>
-                            <td class="px-6 py-4 text-sm font-semibold text-gray-900">$67.25</td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">Overdue</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <span class="text-gray-400 font-semibold">$0.00</span>
-                                    <span class="ml-2 px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">None</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">Dec 10, 2024</td>
-                            <td class="px-6 py-4">
-                                <button onclick="viewInvoice('INV-003')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                <button onclick="sendReminder('INV-003')" class="text-red-600 hover:text-red-800 text-sm font-medium">Follow Up</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Dashboard Modal -->
-    <div id="dashboardModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-7xl mx-4 max-h-full overflow-y-auto slide-in">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
+        <!-- Search Section -->
+        <div id="searchSection" class="fade-in">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Search Invoices & History</h2>
+                <div class="grid md:grid-cols-3 gap-4 mb-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                            📊 Business Dashboard
-                        </h2>
-                        <p class="text-gray-600 mt-2">Overview of your organic health business performance</p>
+                        <label for="billNoSearch" class="block text-sm font-medium text-gray-700 mb-2">Bill Number</label>
+                        <input type="text" id="billNoSearch" placeholder="Enter bill number" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                     </div>
-                    <button onclick="hideDashboardPage()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
-                </div>
-            </div>
-
-            <div class="p-6">
-                <!-- Key Metrics -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-gradient-to-r from-green-400 to-green-600 rounded-xl shadow-lg p-6 text-white">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-green-100 text-sm">Total Revenue</p>
-                                <p class="text-3xl font-bold">$124,580</p>
-                                <p class="text-green-100 text-sm mt-1">+12.5% from last month</p>
-                            </div>
-                            <div class="text-4xl">💰</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl shadow-lg p-6 text-white">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-blue-100 text-sm">Total Customers</p>
-                                <p class="text-3xl font-bold">2,847</p>
-                                <p class="text-blue-100 text-sm mt-1">+8.2% from last month</p>
-                            </div>
-                            <div class="text-4xl">👥</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gradient-to-r from-purple-400 to-purple-600 rounded-xl shadow-lg p-6 text-white">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-purple-100 text-sm">Total Products</p>
-                                <p class="text-3xl font-bold">156</p>
-                                <p class="text-purple-100 text-sm mt-1">+5 new this month</p>
-                            </div>
-                            <div class="text-4xl">📦</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl shadow-lg p-6 text-white">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-orange-100 text-sm">Orders Today</p>
-                                <p class="text-3xl font-bold">47</p>
-                                <p class="text-orange-100 text-sm mt-1">+15% from yesterday</p>
-                            </div>
-                            <div class="text-4xl">📋</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Charts and Analytics -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">📈 Revenue Trend</h3>
-                        <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-                            <div class="text-center">
-                                <div class="text-6xl mb-4">📊</div>
-                                <p class="text-gray-600">Revenue chart visualization</p>
-                                <p class="text-sm text-gray-500">Monthly revenue growth: +12.5%</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">🎯 Top Products</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center">
-                                    <span class="text-2xl mr-3">🌿</span>
-                                    <div>
-                                        <p class="font-semibold text-gray-800">Turmeric Capsules</p>
-                                        <p class="text-sm text-gray-600">847 sold this month</p>
-                                    </div>
-                                </div>
-                                <span class="text-green-600 font-semibold">$25,410</span>
-                            </div>
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center">
-                                    <span class="text-2xl mr-3">🌿</span>
-                                    <div>
-                                        <p class="font-semibold text-gray-800">Vitamin D3</p>
-                                        <p class="text-sm text-gray-600">623 sold this month</p>
-                                    </div>
-                                </div>
-                                <span class="text-green-600 font-semibold">$15,575</span>
-                            </div>
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center">
-                                    <span class="text-2xl mr-3">🥥</span>
-                                    <div>
-                                        <p class="font-semibold text-gray-800">MCT Oil</p>
-                                        <p class="text-sm text-gray-600">412 sold this month</p>
-                                    </div>
-                                </div>
-                                <span class="text-green-600 font-semibold">$16,480</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🔔 Recent Activity</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center p-4 bg-green-50 rounded-lg border border-green-200">
-                            <div class="bg-green-100 p-2 rounded-full mr-4">
-                                <span class="text-green-600">💰</span>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">New payment received</p>
-                                <p class="text-sm text-gray-600">Sarah Johnson paid $89.50 for Invoice #INV-001</p>
-                                <p class="text-xs text-gray-500">2 minutes ago</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div class="bg-blue-100 p-2 rounded-full mr-4">
-                                <span class="text-blue-600">👤</span>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">New customer registered</p>
-                                <p class="text-sm text-gray-600">Alex Thompson joined as a new customer</p>
-                                <p class="text-xs text-gray-500">15 minutes ago</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center p-4 bg-purple-50 rounded-lg border border-purple-200">
-                            <div class="bg-purple-100 p-2 rounded-full mr-4">
-                                <span class="text-purple-600">📦</span>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">Order shipped</p>
-                                <p class="text-sm text-gray-600">Order #ORD-2024-002 has been shipped to Mike Chen</p>
-                                <p class="text-xs text-gray-500">1 hour ago</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Products Modal -->
-    <div id="productsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-7xl mx-4 max-h-full overflow-y-auto slide-in">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                            📦 Product Management
-                        </h2>
-                        <p class="text-gray-600 mt-2">Manage your organic health product catalog</p>
+                        <label for="customerNameSearch" class="block text-sm font-medium text-gray-700 mb-2">Customer Name</label>
+                        <input type="text" id="customerNameSearch" placeholder="Enter customer name" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                     </div>
-                    <div class="flex items-center gap-4">
-                        <button onclick="addNewProduct()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center">
-                            ➕ Add Product
-                        </button>
-                        <button onclick="hideProductsPage()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-6">
-                <!-- Product Stats -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-blue-100 p-3 rounded-full">
-                                <span class="text-2xl">📦</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">Total Products</p>
-                                <p class="text-2xl font-bold text-gray-800">156</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-green-100 p-3 rounded-full">
-                                <span class="text-2xl">✅</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">In Stock</p>
-                                <p class="text-2xl font-bold text-gray-800">142</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-yellow-100 p-3 rounded-full">
-                                <span class="text-2xl">⚠️</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">Low Stock</p>
-                                <p class="text-2xl font-bold text-gray-800">8</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-red-100 p-3 rounded-full">
-                                <span class="text-2xl">❌</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">Out of Stock</p>
-                                <p class="text-2xl font-bold text-gray-800">6</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Filters and Search -->
-                <div class="bg-white rounded-xl shadow-lg p-4 lg:p-6 mb-8 border border-gray-200">
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                        <div class="flex-1 min-w-0">
-                            <input type="text" placeholder="Search products by name, SKU, or category..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 min-w-0">
-                                <option>All Categories</option>
-                                <option>Supplements</option>
-                                <option>Essential Oils</option>
-                                <option>Herbal Teas</option>
-                                <option>Organic Foods</option>
-                                <option>Vitamins</option>
-                            </select>
-                            <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 min-w-0">
-                                <option>All Stock Status</option>
-                                <option>In Stock</option>
-                                <option>Low Stock</option>
-                                <option>Out of Stock</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Products Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                        <div class="p-6">
-                            <div class="text-center mb-4">
-                                <div class="text-6xl mb-2">🌿</div>
-                                <h3 class="font-semibold text-gray-800">Turmeric Capsules</h3>
-                                <p class="text-sm text-gray-600">Premium organic turmeric with black pepper</p>
-                            </div>
-                            <div class="space-y-2 mb-4">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">SKU:</span>
-                                    <span class="font-semibold">TUR-001</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Price:</span>
-                                    <span class="font-semibold text-green-600">$29.99</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Stock:</span>
-                                    <span class="font-semibold">847 units</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Status:</span>
-                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">In Stock</span>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editProduct('TUR-001')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-semibold">Edit</button>
-                                <button onclick="viewProduct('TUR-001')" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-semibold">View</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                        <div class="p-6">
-                            <div class="text-center mb-4">
-                                <div class="text-6xl mb-2">🌿</div>
-                                <h3 class="font-semibold text-gray-800">Vitamin D3</h3>
-                                <p class="text-sm text-gray-600">High potency vitamin D3 supplement</p>
-                            </div>
-                            <div class="space-y-2 mb-4">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">SKU:</span>
-                                    <span class="font-semibold">VIT-D3-001</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Price:</span>
-                                    <span class="font-semibold text-green-600">$24.99</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Stock:</span>
-                                    <span class="font-semibold">623 units</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Status:</span>
-                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">In Stock</span>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editProduct('VIT-D3-001')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-semibold">Edit</button>
-                                <button onclick="viewProduct('VIT-D3-001')" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-semibold">View</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                        <div class="p-6">
-                            <div class="text-center mb-4">
-                                <div class="text-6xl mb-2">🫖</div>
-                                <h3 class="font-semibold text-gray-800">Green Tea</h3>
-                                <p class="text-sm text-gray-600">Organic loose leaf green tea</p>
-                            </div>
-                            <div class="space-y-2 mb-4">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">SKU:</span>
-                                    <span class="font-semibold">TEA-GRN-001</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Price:</span>
-                                    <span class="font-semibold text-green-600">$19.99</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Stock:</span>
-                                    <span class="font-semibold text-yellow-600">12 units</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Status:</span>
-                                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Low Stock</span>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editProduct('TEA-GRN-001')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-semibold">Edit</button>
-                                <button onclick="restockProduct('TEA-GRN-001')" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white px-3 py-2 rounded text-sm font-semibold">Restock</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                        <div class="p-6">
-                            <div class="text-center mb-4">
-                                <div class="text-6xl mb-2">🌸</div>
-                                <h3 class="font-semibold text-gray-800">Lavender Oil</h3>
-                                <p class="text-sm text-gray-600">Pure therapeutic grade lavender essential oil</p>
-                            </div>
-                            <div class="space-y-2 mb-4">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">SKU:</span>
-                                    <span class="font-semibold">OIL-LAV-001</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Price:</span>
-                                    <span class="font-semibold text-green-600">$34.99</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Stock:</span>
-                                    <span class="font-semibold">89 units</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Status:</span>
-                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">In Stock</span>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editProduct('OIL-LAV-001')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-semibold">Edit</button>
-                                <button onclick="viewProduct('OIL-LAV-001')" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-semibold">View</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                        <div class="p-6">
-                            <div class="text-center mb-4">
-                                <div class="text-6xl mb-2">🥥</div>
-                                <h3 class="font-semibold text-gray-800">MCT Oil</h3>
-                                <p class="text-sm text-gray-600">Pure coconut-derived MCT oil</p>
-                            </div>
-                            <div class="space-y-2 mb-4">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">SKU:</span>
-                                    <span class="font-semibold">OIL-MCT-001</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Price:</span>
-                                    <span class="font-semibold text-green-600">$39.99</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Stock:</span>
-                                    <span class="font-semibold">156 units</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Status:</span>
-                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">In Stock</span>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editProduct('OIL-MCT-001')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-semibold">Edit</button>
-                                <button onclick="viewProduct('OIL-MCT-001')" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-semibold">View</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                        <div class="p-6">
-                            <div class="text-center mb-4">
-                                <div class="text-6xl mb-2">🍯</div>
-                                <h3 class="font-semibold text-gray-800">Manuka Honey</h3>
-                                <p class="text-sm text-gray-600">Raw Manuka honey UMF 15+</p>
-                            </div>
-                            <div class="space-y-2 mb-4">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">SKU:</span>
-                                    <span class="font-semibold">HON-MAN-001</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Price:</span>
-                                    <span class="font-semibold text-green-600">$49.99</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Stock:</span>
-                                    <span class="font-semibold text-red-600">0 units</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Status:</span>
-                                    <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Out of Stock</span>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editProduct('HON-MAN-001')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-semibold">Edit</button>
-                                <button onclick="restockProduct('HON-MAN-001')" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm font-semibold">Restock</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Customers Modal -->
-    <div id="customersModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-7xl mx-4 max-h-full overflow-y-auto slide-in">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                            👥 Customer Management
-                        </h2>
-                        <p class="text-gray-600 mt-2">Manage your customer database and relationships</p>
+                        <label for="phoneSearch" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <input type="text" id="phoneSearch" placeholder="Enter phone number" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                     </div>
-                    <div class="flex items-center gap-4">
-                        <button onclick="addNewCustomer()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center">
-                            ➕ Add Customer
-                        </button>
-                        <button onclick="hideCustomersPage()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
-                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="searchInvoices()" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                        Search
+                    </button>
+                    <button onclick="showAllInvoices()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                        Show All Invoices
+                    </button>
                 </div>
             </div>
 
-            <div class="p-6">
-                <!-- Customer Stats -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-blue-100 p-3 rounded-full">
-                                <span class="text-2xl">👥</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">Total Customers</p>
-                                <p class="text-2xl font-bold text-gray-800">2,847</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-green-100 p-3 rounded-full">
-                                <span class="text-2xl">🌟</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">Active Customers</p>
-                                <p class="text-2xl font-bold text-gray-800">2,156</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-purple-100 p-3 rounded-full">
-                                <span class="text-2xl">👑</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">VIP Customers</p>
-                                <p class="text-2xl font-bold text-gray-800">89</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <div class="flex items-center">
-                            <div class="bg-orange-100 p-3 rounded-full">
-                                <span class="text-2xl">📅</span>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">New This Month</p>
-                                <p class="text-2xl font-bold text-gray-800">234</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Filters and Search -->
-                <div class="bg-white rounded-xl shadow-lg p-4 lg:p-6 mb-8 border border-gray-200">
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                        <div class="flex-1 min-w-0">
-                            <input type="text" placeholder="Search customers by name, email, or phone..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 min-w-0">
-                                <option>All Status</option>
-                                <option>Active</option>
-                                <option>VIP</option>
-                                <option>Inactive</option>
-                            </select>
-                            <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 min-w-0">
-                                <option>All Countries</option>
-                                <option>United States</option>
-                                <option>Canada</option>
-                                <option>United Kingdom</option>
-                                <option>Australia</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Customers Table -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                    <div class="p-6 border-b border-gray-200">
-                        <h3 class="text-xl font-semibold text-gray-800">Customer Directory</h3>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Customer</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Contact</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Location</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Total Orders</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Total Spent</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Credit Balance</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Status</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="bg-green-100 p-2 rounded-full mr-3">
-                                                <span class="text-green-600 font-semibold">SJ</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-900">Sarah Johnson</p>
-                                                <p class="text-sm text-gray-500">Customer since Dec 2023</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">sarah.johnson@email.com</p>
-                                            <p class="text-sm text-gray-500">+1 (555) 123-4567</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">🇺🇸 United States</p>
-                                            <p class="text-sm text-gray-500">New York, NY</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">47</td>
-                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$2,847.50</td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-purple-600 font-semibold">$125.00</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 text-xs font-semibold bg-purple-100 text-purple-800 rounded-full">VIP</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button onclick="viewCustomer('sarah-johnson')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                        <button onclick="editCustomer('sarah-johnson')" class="text-green-600 hover:text-green-800 text-sm font-medium">Edit</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="bg-blue-100 p-2 rounded-full mr-3">
-                                                <span class="text-blue-600 font-semibold">MC</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-900">Mike Chen</p>
-                                                <p class="text-sm text-gray-500">Customer since Jan 2024</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">mike.chen@email.com</p>
-                                            <p class="text-sm text-gray-500">+1 (555) 987-6543</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">🇨🇦 Canada</p>
-                                            <p class="text-sm text-gray-500">Toronto, ON</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">23</td>
-                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$1,456.75</td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-purple-600 font-semibold">$75.50</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button onclick="viewCustomer('mike-chen')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                        <button onclick="editCustomer('mike-chen')" class="text-green-600 hover:text-green-800 text-sm font-medium">Edit</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="bg-purple-100 p-2 rounded-full mr-3">
-                                                <span class="text-purple-600 font-semibold">EW</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-900">Emma Wilson</p>
-                                                <p class="text-sm text-gray-500">Customer since Nov 2023</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">emma.wilson@email.com</p>
-                                            <p class="text-sm text-gray-500">+44 20 7946 0958</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">🇬🇧 United Kingdom</p>
-                                            <p class="text-sm text-gray-500">London</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">15</td>
-                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$892.25</td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-gray-400 font-semibold">$0.00</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button onclick="viewCustomer('emma-wilson')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                        <button onclick="editCustomer('emma-wilson')" class="text-green-600 hover:text-green-800 text-sm font-medium">Edit</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="bg-orange-100 p-2 rounded-full mr-3">
-                                                <span class="text-orange-600 font-semibold">DR</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-900">David Rodriguez</p>
-                                                <p class="text-sm text-gray-500">Customer since Feb 2024</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">david.rodriguez@email.com</p>
-                                            <p class="text-sm text-gray-500">+1 (555) 456-7890</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">🇺🇸 United States</p>
-                                            <p class="text-sm text-gray-500">Los Angeles, CA</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">8</td>
-                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$456.80</td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-gray-400 font-semibold">$0.00</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button onclick="viewCustomer('david-rodriguez')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                        <button onclick="editCustomer('david-rodriguez')" class="text-green-600 hover:text-green-800 text-sm font-medium">Edit</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="bg-pink-100 p-2 rounded-full mr-3">
-                                                <span class="text-pink-600 font-semibold">LT</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-900">Lisa Thompson</p>
-                                                <p class="text-sm text-gray-500">Customer since Mar 2024</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">lisa.thompson@email.com</p>
-                                            <p class="text-sm text-gray-500">+61 2 9876 5432</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div>
-                                            <p class="text-sm text-gray-900">🇦🇺 Australia</p>
-                                            <p class="text-sm text-gray-500">Sydney, NSW</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">12</td>
-                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$734.60</td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-purple-600 font-semibold">$45.00</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button onclick="viewCustomer('lisa-thompson')" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">View</button>
-                                        <button onclick="editCustomer('lisa-thompson')" class="text-green-600 hover:text-green-800 text-sm font-medium">Edit</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <!-- Search Results -->
+            <div id="searchResults" class="hidden bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Invoice Results</h3>
+                <div id="searchResultsList"></div>
             </div>
         </div>
-    </div>
 
-    <!-- Create Invoice Modal -->
-    <div id="createInvoiceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl mx-4 max-h-full overflow-y-auto slide-in">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
+        <!-- New Invoice Section -->
+        <div id="newInvoiceSection" class="hidden fade-in">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800">Create New Invoice</h2>
-                    <button onclick="hideCreateInvoice()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
-                </div>
-            </div>
-            <form onsubmit="createInvoice(event)" class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Customer Name</label>
-                        <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Customer Email</label>
-                        <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    </div>
                 </div>
 
-                <!-- Contact Details Section -->
+                <!-- Invoice Type -->
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Details</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Country</label>
-                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                <option value="">Select Country</option>
-                                <option value="US">🇺🇸 United States</option>
-                                <option value="CA">🇨🇦 Canada</option>
-                                <option value="GB">🇬🇧 United Kingdom</option>
-                                <option value="AU">🇦🇺 Australia</option>
-                                <option value="DE">🇩🇪 Germany</option>
-                                <option value="FR">🇫🇷 France</option>
-                                <option value="IT">🇮🇹 Italy</option>
-                                <option value="ES">🇪🇸 Spain</option>
-                                <option value="NL">🇳🇱 Netherlands</option>
-                                <option value="SE">🇸🇪 Sweden</option>
-                                <option value="NO">🇳🇴 Norway</option>
-                                <option value="DK">🇩🇰 Denmark</option>
-                                <option value="FI">🇫🇮 Finland</option>
-                                <option value="CH">🇨🇭 Switzerland</option>
-                                <option value="AT">🇦🇹 Austria</option>
-                                <option value="BE">🇧🇪 Belgium</option>
-                                <option value="IE">🇮🇪 Ireland</option>
-                                <option value="NZ">🇳🇿 New Zealand</option>
-                                <option value="JP">🇯🇵 Japan</option>
-                                <option value="SG">🇸🇬 Singapore</option>
-                            </select>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Invoice Type</label>
+                    <div class="flex gap-6">
+                        <div class="flex items-center">
+                            <input type="radio" id="typePurchase" name="invoiceType" value="purchase" class="mr-2" checked>
+                            <label for="typePurchase" class="text-sm text-gray-700">Purchase (Immediate)</label>
                         </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
-                            <input type="tel" placeholder="Enter phone number with country code" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <div class="flex items-center">
+                            <input type="radio" id="typeOrder" name="invoiceType" value="order" class="mr-2">
+                            <label for="typeOrder" class="text-sm text-gray-700">Order (To be prepared)</label>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Address</label>
-                        <textarea rows="3" placeholder="Enter complete address including street, city, state/province, and postal code..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"></textarea>
                     </div>
                 </div>
 
+                <!-- Customer Details -->
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="customerName" class="block text-sm font-medium text-gray-700 mb-2">Customer Name</label>
+                        <input type="text" id="customerName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="customerPhone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <input type="text" id="customerPhone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <!-- Items Section -->
                 <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Products</label>
-                    <div id="productsList" class="space-y-3">
-                        <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg">
-                            <select class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                                <option>🌿 Turmeric Capsules - $29.99</option>
-                                <option>🌿 Vitamin D3 - $24.99</option>
-                                <option>🫖 Green Tea - $19.99</option>
-                                <option>🌸 Lavender Oil - $34.99</option>
-                                <option>🥥 MCT Oil - $39.99</option>
-                                <option>🍯 Manuka Honey - $49.99</option>
-                            </select>
-                            <input type="number" placeholder="Qty" min="1" value="1" class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                            <button type="button" onclick="removeProduct(this)" class="text-red-600 hover:text-red-800 px-2">🗑️</button>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Items</h3>
+                        <button onclick="addItem()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            Add Item
+                        </button>
+                    </div>
+                    <div id="itemsList">
+                        <div class="grid grid-cols-12 gap-2 mb-2 text-sm font-medium text-gray-600">
+                            <div class="col-span-4">Item Description</div>
+                            <div class="col-span-2">Quantity</div>
+                            <div class="col-span-2">Price</div>
+                            <div class="col-span-2">Total</div>
+                            <div class="col-span-2">Action</div>
+                        </div>
+                        <div class="item-row grid grid-cols-12 gap-2 mb-2">
+                            <input type="text" placeholder="Dress description" class="col-span-4 px-3 py-2 border border-gray-300 rounded-lg item-desc">
+                            <input type="number" placeholder="1" class="col-span-2 px-3 py-2 border border-gray-300 rounded-lg item-qty" value="1" onchange="calculateItemTotal(this)">
+                            <input type="number" placeholder="0.00" class="col-span-2 px-3 py-2 border border-gray-300 rounded-lg item-price" onchange="calculateItemTotal(this)">
+                            <input type="number" class="col-span-2 px-3 py-2 border border-gray-300 rounded-lg item-total bg-gray-50" readonly>
+                            <button onclick="removeItem(this)" class="col-span-2 bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition-colors">Remove</button>
                         </div>
                     </div>
-                    <button type="button" onclick="addProduct()" class="mt-3 text-green-600 hover:text-green-800 font-semibold">+ Add Product</button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Payment Details -->
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Due Date</label>
-                        <input type="date" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <label for="subtotal" class="block text-sm font-medium text-gray-700 mb-2">Subtotal</label>
+                        <input type="number" id="subtotal" class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50" readonly>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Payment Terms</label>
-                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                            <option>Net 30</option>
-                            <option>Net 15</option>
-                            <option>Due on Receipt</option>
-                        </select>
+                        <label for="amountPaid" class="block text-sm font-medium text-gray-700 mb-2">Amount Paid</label>
+                        <input type="number" id="amountPaid" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" onchange="calculateBalance()">
                     </div>
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Notes</label>
-                    <textarea rows="3" placeholder="Additional notes or special instructions..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"></textarea>
-                </div>
-
-                <div class="flex justify-end gap-4">
-                    <button type="button" onclick="hideCreateInvoice()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-semibold">Cancel</button>
-                    <button type="submit" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold">Create Invoice</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Invoice Details Modal -->
-    <div id="invoiceDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl mx-4 max-h-full overflow-y-auto slide-in">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-2xl font-bold text-gray-800" id="invoiceDetailsTitle">Invoice Details</h2>
-                    <button onclick="hideInvoiceDetails()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
-                </div>
-            </div>
-            
-            <div class="p-6">
-                <!-- Invoice Header -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">🌿 Organic Health CRM</h3>
-                        <p class="text-gray-600">123 Wellness Street</p>
-                        <p class="text-gray-600">Health City, HC 12345</p>
-                        <p class="text-gray-600">contact@organichealth.com</p>
-                        <p class="text-gray-600">(555) 123-4567</p>
-                    </div>
-                    <div class="text-right">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Bill To:</h3>
-                        <div id="customerDetails">
-                            <p class="font-semibold text-gray-800" id="customerName">Sarah Johnson</p>
-                            <p class="text-gray-600" id="customerEmail">sarah.johnson@email.com</p>
-                            <p class="text-gray-600">456 Customer Lane</p>
-                            <p class="text-gray-600">Customer City, CC 67890</p>
-                        </div>
-                    </div>
-                    <div class="bg-purple-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-purple-800 mb-2 flex items-center">
-                            💳 Credit Balance
-                        </h3>
-                        <p class="text-2xl font-bold text-purple-600" id="customerCreditBalance">$125.00</p>
-                        <div class="mt-3 space-y-2">
-                            <button onclick="addCredit()" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded text-sm font-semibold">
-                                Add Credit
-                            </button>
-                            <button onclick="applyCreditToInvoice()" class="w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm font-semibold">
-                                Apply to Invoice
-                            </button>
-                        </div>
+                        <label for="balance" class="block text-sm font-medium text-gray-700 mb-2">Balance</label>
+                        <input type="number" id="balance" class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50" readonly>
                     </div>
                 </div>
 
-                <!-- Invoice Info -->
-                <div class="bg-gray-50 rounded-lg p-6 mb-8">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                            <p class="text-sm font-semibold text-gray-600">Invoice Number</p>
-                            <p class="text-lg font-bold text-gray-800" id="invoiceNumber">#INV-001</p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-gray-600">Issue Date</p>
-                            <p class="text-lg text-gray-800" id="issueDate">Dec 1, 2024</p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-gray-600">Due Date</p>
-                            <p class="text-lg text-gray-800" id="dueDate">Dec 15, 2024</p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-gray-600">Status</p>
-                            <span id="invoiceStatus" class="px-3 py-1 text-sm font-semibold bg-green-100 text-green-800 rounded-full">Paid</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Line Items -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Items</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full border border-gray-200 rounded-lg">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Product</th>
-                                    <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600">Quantity</th>
-                                    <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Unit Price</th>
-                                    <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="invoiceItems" class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="flex items-center">
-                                            <span class="text-2xl mr-3">🌿</span>
-                                            <div>
-                                                <p class="font-semibold text-gray-800">Turmeric Capsules</p>
-                                                <p class="text-sm text-gray-600">Premium organic turmeric with black pepper</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">2</td>
-                                    <td class="px-4 py-3 text-right">$29.99</td>
-                                    <td class="px-4 py-3 text-right font-semibold">$59.98</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="flex items-center">
-                                            <span class="text-2xl mr-3">🫖</span>
-                                            <div>
-                                                <p class="font-semibold text-gray-800">Green Tea</p>
-                                                <p class="text-sm text-gray-600">Organic loose leaf green tea</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">1</td>
-                                    <td class="px-4 py-3 text-right">$19.99</td>
-                                    <td class="px-4 py-3 text-right font-semibold">$19.99</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Totals -->
-                <div class="flex justify-end mb-8">
-                    <div class="w-full max-w-sm">
-                        <div class="bg-gray-50 rounded-lg p-6">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-600">Subtotal:</span>
-                                <span class="font-semibold">$79.97</span>
-                            </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-600">Tax (8.5%):</span>
-                                <span class="font-semibold">$6.80</span>
-                            </div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-600">Shipping:</span>
-                                <span class="font-semibold">$2.73</span>
-                            </div>
-                            <hr class="my-3">
-                            <div class="flex justify-between text-lg font-bold">
-                                <span>Total:</span>
-                                <span class="text-green-600">$89.50</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payment History -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Payment & Credit History</h3>
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <div id="paymentHistory">
-                            <div class="flex items-center justify-between py-2 border-b border-gray-200 mb-2">
-                                <div class="flex items-center">
-                                    <span class="text-green-600 mr-3">✅</span>
-                                    <div>
-                                        <p class="font-semibold text-gray-800">Payment Received</p>
-                                        <p class="text-sm text-gray-600">Dec 14, 2024 - Credit Card ending in 4532</p>
-                                    </div>
-                                </div>
-                                <span class="font-semibold text-green-600">$89.50</span>
-                            </div>
-                            <div class="flex items-center justify-between py-2">
-                                <div class="flex items-center">
-                                    <span class="text-purple-600 mr-3">💳</span>
-                                    <div>
-                                        <p class="font-semibold text-gray-800">Credit Added</p>
-                                        <p class="text-sm text-gray-600">Dec 10, 2024 - Cash payment for future purchases</p>
-                                    </div>
-                                </div>
-                                <span class="font-semibold text-purple-600">+$125.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Notes -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Notes</h3>
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <p class="text-gray-700" id="invoiceNotes">Thank you for choosing our organic health products. All items are certified organic and sustainably sourced.</p>
-                    </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="flex flex-wrap gap-4 justify-end">
-                    <button onclick="printInvoice()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-semibold flex items-center">
-                        🖨️ Print
+                <div class="flex gap-4">
+                    <button onclick="saveInvoice()" class="bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium">
+                        Save Invoice
                     </button>
-                    <button onclick="downloadInvoicePDF()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold flex items-center">
-                        📄 Download PDF
-                    </button>
-                    <button onclick="emailInvoice()" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold flex items-center">
-                        📧 Email Invoice
+                    <button onclick="saveAndPrintInvoice()" class="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">
+                        Save & Print
                     </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Add Credit Modal -->
-    <div id="addCreditModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 slide-in">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-bold text-gray-800">💳 Add Customer Credit</h2>
-                    <button onclick="hideAddCredit()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
-                </div>
-            </div>
-            <form onsubmit="processAddCredit(event)" class="p-6">
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Credit Amount</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-3 text-gray-500">$</span>
-                        <input type="number" step="0.01" min="0" required class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="0.00">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Payment Method</label>
-                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                        <option>Cash</option>
-                        <option>Credit Card</option>
-                        <option>Bank Transfer</option>
-                        <option>Check</option>
-                    </select>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Notes</label>
-                    <textarea rows="3" placeholder="Optional notes about this credit..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
-                </div>
-                <div class="flex justify-end gap-4">
-                    <button type="button" onclick="hideAddCredit()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-semibold">Cancel</button>
-                    <button type="submit" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold">Add Credit</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- Content Management System Modal -->
-    <div id="contentManagementModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl mx-4 max-h-full overflow-y-auto slide-in">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-2xl font-bold text-gray-800" id="cmsTitle">📝 Content Management System</h2>
-                    <button onclick="hideContentManagement()" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
-                </div>
-            </div>
-            
-            <!-- CMS Navigation Tabs -->
-            <div class="border-b border-gray-200">
-                <nav class="flex flex-wrap gap-2 sm:gap-8 px-4 sm:px-6 overflow-x-auto" id="cmsNavigation">
-                    <button onclick="showCMSSection('pages')" class="py-4 px-1 border-b-2 border-green-500 font-medium text-xs sm:text-sm text-green-600 whitespace-nowrap" id="pagesTab">
-                        📄 Pages
-                    </button>
-                    <button onclick="showCMSSection('blog')" class="py-4 px-1 border-b-2 border-transparent font-medium text-xs sm:text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap" id="blogTab">
-                        📰 Blog
-                    </button>
-                    <button onclick="showCMSSection('media')" class="py-4 px-1 border-b-2 border-transparent font-medium text-xs sm:text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap" id="mediaTab">
-                        🖼️ Media
-                    </button>
-                    <button onclick="showCMSSection('menus')" class="py-4 px-1 border-b-2 border-transparent font-medium text-xs sm:text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap" id="menusTab">
-                        🧭 Menus
-                    </button>
-                    <button onclick="showCMSSection('seo')" class="py-4 px-1 border-b-2 border-transparent font-medium text-xs sm:text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap" id="seoTab">
-                        🔍 SEO
-                    </button>
-                </nav>
-            </div>
 
-            <!-- CMS Content Area -->
-            <div class="p-6" id="cmsContent">
+        <!-- Reports Section -->
+        <div id="reportsSection" class="hidden fade-in">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Business Reports</h2>
                 
-                <!-- Pages Management -->
-                <div id="pagesSection" class="cms-section">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">Website Pages</h3>
-                            <p class="text-gray-600">Manage your website pages and content</p>
-                        </div>
-                        <button onclick="createNewPage()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center">
-                            ➕ New Page
-                        </button>
+                <!-- Date Range Filter -->
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label for="startDate" class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                        <input type="date" id="startDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                     </div>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-semibold text-gray-800">🏠 Home Page</h4>
-                                <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Published</span>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Main landing page with hero section and product highlights</p>
-                            <div class="flex gap-2">
-                                <button onclick="editPage('home')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</button>
-                                <button onclick="previewPage('home')" class="text-green-600 hover:text-green-800 text-sm font-medium">Preview</button>
-                                <button onclick="duplicatePage('home')" class="text-purple-600 hover:text-purple-800 text-sm font-medium">Duplicate</button>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-semibold text-gray-800">🛍️ Products Page</h4>
-                                <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Published</span>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Product catalog with filtering and search functionality</p>
-                            <div class="flex gap-2">
-                                <button onclick="editPage('products')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</button>
-                                <button onclick="previewPage('products')" class="text-green-600 hover:text-green-800 text-sm font-medium">Preview</button>
-                                <button onclick="duplicatePage('products')" class="text-purple-600 hover:text-purple-800 text-sm font-medium">Duplicate</button>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-semibold text-gray-800">📞 Contact Page</h4>
-                                <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Draft</span>
-                            </div>
-                            <p class="text-gray-600 text-sm mb-4">Contact form and business information</p>
-                            <div class="flex gap-2">
-                                <button onclick="editPage('contact')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</button>
-                                <button onclick="previewPage('contact')" class="text-green-600 hover:text-green-800 text-sm font-medium">Preview</button>
-                                <button onclick="publishPage('contact')" class="text-green-600 hover:text-green-800 text-sm font-medium">Publish</button>
-                            </div>
-                        </div>
+                    <div>
+                        <label for="endDate" class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                        <input type="date" id="endDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="generateReport()" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                            Generate Report
+                        </button>
                     </div>
                 </div>
 
-                <!-- Blog Management -->
-                <div id="blogSection" class="cms-section hidden">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">Blog Posts</h3>
-                            <p class="text-gray-600">Create and manage blog content</p>
-                        </div>
-                        <button onclick="createNewPost()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center">
-                            ➕ New Post
+                <!-- Summary Cards -->
+                <div id="reportSummary" class="grid md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg">
+                        <h3 class="text-sm font-medium opacity-90">Total Sales</h3>
+                        <p id="totalSales" class="text-2xl font-bold">₹0.00</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-lg">
+                        <h3 class="text-sm font-medium opacity-90">Total Invoices</h3>
+                        <p id="totalInvoices" class="text-2xl font-bold">0</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 rounded-lg">
+                        <h3 class="text-sm font-medium opacity-90">Pending Amount</h3>
+                        <p id="pendingAmount" class="text-2xl font-bold">₹0.00</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-lg">
+                        <h3 class="text-sm font-medium opacity-90">Avg Invoice Value</h3>
+                        <p id="avgInvoice" class="text-2xl font-bold">₹0.00</p>
+                    </div>
+                </div>
+
+                <!-- Detailed Report Table -->
+                <div id="reportDetails" class="hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">Detailed Report</h3>
+                        <button onclick="printReport()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            Print Report
                         </button>
                     </div>
-                    
-                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                        <table class="w-full">
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Invoice ID</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Date</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Customer</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Phone</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Amount</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Paid</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Balance</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">🌿 Benefits of Organic Turmeric</div>
-                                        <div class="text-sm text-gray-500">Health benefits and usage guide</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Dr. Sarah Wilson</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Published</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Dec 15, 2024</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button onclick="editPost('turmeric')" class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
-                                        <button onclick="viewPost('turmeric')" class="text-green-600 hover:text-green-900">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">🫖 Green Tea Brewing Guide</div>
-                                        <div class="text-sm text-gray-500">Perfect brewing techniques for maximum benefits</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Mike Chen</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Draft</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Dec 12, 2024</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button onclick="editPost('green-tea')" class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
-                                        <button onclick="publishPost('green-tea')" class="text-green-600 hover:text-green-900">Publish</button>
-                                    </td>
-                                </tr>
+                            <tbody id="reportTableBody">
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Media Library -->
-                <div id="mediaSection" class="cms-section hidden">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">Media Library</h3>
-                            <p class="text-gray-600">Manage images, videos, and documents</p>
-                        </div>
-                        <button onclick="uploadMedia()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center">
-                            📤 Upload Media
+        <!-- Invoice Details Popup Modal -->
+        <div id="invoiceModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-full overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">Invoice Details</h2>
+                        <button onclick="closeInvoiceModal()" class="text-gray-500 hover:text-gray-700 text-2xl font-bold">×</button>
+                    </div>
+                    <div id="invoiceModalContent"></div>
+                    <div class="flex gap-4 mt-6">
+                        <button onclick="printCurrentInvoice()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            Print Invoice
                         </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        <div class="bg-gray-100 rounded-lg p-4 text-center hover:bg-gray-200 transition-colors cursor-pointer" onclick="selectMedia('turmeric.jpg')">
-                            <div class="text-4xl mb-2">🌿</div>
-                            <p class="text-xs text-gray-600 truncate">turmeric.jpg</p>
-                            <p class="text-xs text-gray-500">245 KB</p>
-                        </div>
-                        <div class="bg-gray-100 rounded-lg p-4 text-center hover:bg-gray-200 transition-colors cursor-pointer" onclick="selectMedia('green-tea.jpg')">
-                            <div class="text-4xl mb-2">🫖</div>
-                            <p class="text-xs text-gray-600 truncate">green-tea.jpg</p>
-                            <p class="text-xs text-gray-500">189 KB</p>
-                        </div>
-                        <div class="bg-gray-100 rounded-lg p-4 text-center hover:bg-gray-200 transition-colors cursor-pointer" onclick="selectMedia('lavender.jpg')">
-                            <div class="text-4xl mb-2">🌸</div>
-                            <p class="text-xs text-gray-600 truncate">lavender.jpg</p>
-                            <p class="text-xs text-gray-500">312 KB</p>
-                        </div>
-                        <div class="bg-gray-100 rounded-lg p-4 text-center hover:bg-gray-200 transition-colors cursor-pointer" onclick="selectMedia('mct-oil.jpg')">
-                            <div class="text-4xl mb-2">🥥</div>
-                            <p class="text-xs text-gray-600 truncate">mct-oil.jpg</p>
-                            <p class="text-xs text-gray-500">278 KB</p>
-                        </div>
-                        <div class="bg-gray-100 rounded-lg p-4 text-center hover:bg-gray-200 transition-colors cursor-pointer" onclick="selectMedia('honey.jpg')">
-                            <div class="text-4xl mb-2">🍯</div>
-                            <p class="text-xs text-gray-600 truncate">honey.jpg</p>
-                            <p class="text-xs text-gray-500">456 KB</p>
-                        </div>
-                        <div class="bg-gray-100 rounded-lg p-4 text-center hover:bg-gray-200 transition-colors cursor-pointer" onclick="selectMedia('vitamin-d3.jpg')">
-                            <div class="text-4xl mb-2">🌿</div>
-                            <p class="text-xs text-gray-600 truncate">vitamin-d3.jpg</p>
-                            <p class="text-xs text-gray-500">198 KB</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation Menus -->
-                <div id="menusSection" class="cms-section hidden">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">Navigation Menus</h3>
-                            <p class="text-gray-600">Manage website navigation and menu structure</p>
-                        </div>
-                        <button onclick="createNewMenu()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center">
-                            ➕ New Menu
+                        <button onclick="closeInvoiceModal()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            Close
                         </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="bg-white rounded-lg border border-gray-200 p-6">
-                            <h4 class="font-semibold text-gray-800 mb-4">🧭 Main Navigation</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex items-center">
-                                        <span class="mr-3">🏠</span>
-                                        <span>Home</span>
-                                    </div>
-                                    <button onclick="editMenuItem('home')" class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
-                                </div>
-                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex items-center">
-                                        <span class="mr-3">🛍️</span>
-                                        <span>Products</span>
-                                    </div>
-                                    <button onclick="editMenuItem('products')" class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
-                                </div>
-                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex items-center">
-                                        <span class="mr-3">📰</span>
-                                        <span>Blog</span>
-                                    </div>
-                                    <button onclick="editMenuItem('blog')" class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
-                                </div>
-                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex items-center">
-                                        <span class="mr-3">📞</span>
-                                        <span>Contact</span>
-                                    </div>
-                                    <button onclick="editMenuItem('contact')" class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white rounded-lg border border-gray-200 p-6">
-                            <h4 class="font-semibold text-gray-800 mb-4">🦶 Footer Menu</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex items-center">
-                                        <span class="mr-3">ℹ️</span>
-                                        <span>About Us</span>
-                                    </div>
-                                    <button onclick="editMenuItem('about')" class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
-                                </div>
-                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex items-center">
-                                        <span class="mr-3">📋</span>
-                                        <span>Privacy Policy</span>
-                                    </div>
-                                    <button onclick="editMenuItem('privacy')" class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
-                                </div>
-                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex items-center">
-                                        <span class="mr-3">📜</span>
-                                        <span>Terms of Service</span>
-                                    </div>
-                                    <button onclick="editMenuItem('terms')" class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SEO Settings -->
-                <div id="seoSection" class="cms-section hidden">
-                    <div class="mb-6">
-                        <h3 class="text-xl font-semibold text-gray-800">🔍 SEO Settings</h3>
-                        <p class="text-gray-600">Optimize your website for search engines</p>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="space-y-6">
-                            <div class="bg-white rounded-lg border border-gray-200 p-6">
-                                <h4 class="font-semibold text-gray-800 mb-4">Global SEO Settings</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Site Title</label>
-                                        <input type="text" value="Organic Health CRM - Premium Natural Products" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Meta Description</label>
-                                        <textarea rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">Discover premium organic health products including supplements, essential oils, and natural remedies. Certified organic and sustainably sourced for your wellness journey.</textarea>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Keywords</label>
-                                        <input type="text" value="organic health, natural supplements, essential oils, wellness, organic products" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-6">
-                            <div class="bg-white rounded-lg border border-gray-200 p-6">
-                                <h4 class="font-semibold text-gray-800 mb-4">Analytics & Tracking</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Google Analytics ID</label>
-                                        <input type="text" placeholder="G-XXXXXXXXXX" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Google Search Console</label>
-                                        <input type="text" placeholder="Verification code" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Facebook Pixel ID</label>
-                                        <input type="text" placeholder="Facebook Pixel ID" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script>
-        // Global state
-        let currentView = 'invoices';
-        let invoiceCounter = 4;
+        // Sample data
+        let invoices = [
+            {
+                id: 'INV001',
+                customerName: 'Sarah Johnson',
+                phone: '555-0123',
+                date: '2024-01-15',
+                type: 'purchase',
+                items: [
+                    { desc: 'Evening Gown - Black', qty: 1, price: 24999.00, total: 24999.00 },
+                    { desc: 'Silk Scarf', qty: 2, price: 4000.00, total: 8000.00 }
+                ],
+                subtotal: 32999.00,
+                amountPaid: 32999.00,
+                balance: 0,
+                status: 'paid'
+            },
+            {
+                id: 'INV002',
+                customerName: 'Emily Davis',
+                phone: '555-0456',
+                date: '2024-01-16',
+                type: 'order',
+                orderStatus: 'pending',
+                items: [
+                    { desc: 'Wedding Dress - White', qty: 1, price: 74999.00, total: 74999.00 }
+                ],
+                subtotal: 74999.00,
+                amountPaid: 40000.00,
+                balance: 34999.00,
+                status: 'pending'
+            },
+            {
+                id: 'INV003',
+                customerName: 'Jessica Wilson',
+                phone: '555-0789',
+                date: '2024-01-17',
+                type: 'order',
+                orderStatus: 'ready',
+                items: [
+                    { desc: 'Cocktail Dress - Red', qty: 1, price: 16999.00, total: 16999.00 }
+                ],
+                subtotal: 16999.00,
+                amountPaid: 20000.00,
+                balance: -3001.00,
+                status: 'excess'
+            }
+        ];
 
-        // Navigation functions
-        function toggleBillingMenu() {
-            const menu = document.getElementById('billingMenu');
-            const chevron = document.getElementById('billingChevron');
-            menu.classList.toggle('hidden');
-            chevron.style.transform = menu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
+        let currentInvoiceId = 4;
 
-        function toggleContentMenu() {
-            const menu = document.getElementById('contentMenu');
-            const chevron = document.getElementById('contentChevron');
-            menu.classList.toggle('hidden');
-            chevron.style.transform = menu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
+        // Tab switching
+        document.getElementById('searchTab').addEventListener('click', () => switchTab('search'));
+        document.getElementById('newInvoiceTab').addEventListener('click', () => switchTab('newInvoice'));
+        document.getElementById('reportsTab').addEventListener('click', () => switchTab('reports'));
 
-        function toggleUserMenu() {
-            const menu = document.getElementById('userMenu');
-            menu.classList.toggle('hidden');
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Page navigation functions
-        function showDashboardPage() {
-            document.getElementById('dashboardModal').classList.remove('hidden');
-            document.getElementById('dashboardModal').classList.add('flex');
-        }
-
-        function hideDashboardPage() {
-            document.getElementById('dashboardModal').classList.add('hidden');
-            document.getElementById('dashboardModal').classList.remove('flex');
-        }
-
-        function showProductsPage() {
-            document.getElementById('productsModal').classList.remove('hidden');
-            document.getElementById('productsModal').classList.add('flex');
-        }
-
-        function hideProductsPage() {
-            document.getElementById('productsModal').classList.add('hidden');
-            document.getElementById('productsModal').classList.remove('flex');
-        }
-
-        function showCustomersPage() {
-            document.getElementById('customersModal').classList.remove('hidden');
-            document.getElementById('customersModal').classList.add('flex');
-        }
-
-        function hideCustomersPage() {
-            document.getElementById('customersModal').classList.add('hidden');
-            document.getElementById('customersModal').classList.remove('flex');
-        }
-
-        function showOrdersPage() {
-            alert('Orders page functionality coming soon!');
-        }
-
-        // Billing view functions
-        function showInvoicesView() {
-            currentView = 'invoices';
-            // Close dropdown
-            document.getElementById('billingMenu').classList.add('hidden');
-            // This is already the main view, so just close any open modals
-            hideCreateInvoice();
-            hideInvoiceDetails();
-        }
-
-        function showPaymentsView() {
-            alert('Payments view functionality coming soon!');
-            document.getElementById('billingMenu').classList.add('hidden');
-        }
-
-        function showCreditsView() {
-            alert('Customer Credits view functionality coming soon!');
-            document.getElementById('billingMenu').classList.add('hidden');
-        }
-
-        function showReportsView() {
-            alert('Financial Reports view functionality coming soon!');
-            document.getElementById('billingMenu').classList.add('hidden');
-        }
-
-        function showBillingSettings() {
-            alert('Billing Settings functionality coming soon!');
-            document.getElementById('billingMenu').classList.add('hidden');
-        }
-
-        // Content Management functions
-        function showPagesView() {
-            showContentManagement('pages');
-            document.getElementById('contentMenu').classList.add('hidden');
-        }
-
-        function showBlogView() {
-            showContentManagement('blog');
-            document.getElementById('contentMenu').classList.add('hidden');
-        }
-
-        function showMediaView() {
-            showContentManagement('media');
-            document.getElementById('contentMenu').classList.add('hidden');
-        }
-
-        function showMenusView() {
-            showContentManagement('menus');
-            document.getElementById('contentMenu').classList.add('hidden');
-        }
-
-        function showSEOView() {
-            showContentManagement('seo');
-            document.getElementById('contentMenu').classList.add('hidden');
-        }
-
-        function showThemesView() {
-            alert('Themes functionality coming soon!');
-            document.getElementById('contentMenu').classList.add('hidden');
-        }
-
-        function showContentManagement(section = 'pages') {
-            document.getElementById('contentManagementModal').classList.remove('hidden');
-            document.getElementById('contentManagementModal').classList.add('flex');
-            showCMSSection(section);
-        }
-
-        function hideContentManagement() {
-            document.getElementById('contentManagementModal').classList.add('hidden');
-            document.getElementById('contentManagementModal').classList.remove('flex');
-        }
-
-        function showCMSSection(section) {
+        function switchTab(tab) {
             // Hide all sections
-            const sections = document.querySelectorAll('.cms-section');
-            sections.forEach(s => s.classList.add('hidden'));
+            document.getElementById('searchSection').classList.add('hidden');
+            document.getElementById('newInvoiceSection').classList.add('hidden');
+            document.getElementById('reportsSection').classList.add('hidden');
+
+            // Reset tab styles
+            document.querySelectorAll('button[id$="Tab"]').forEach(btn => {
+                btn.classList.remove('bg-purple-600', 'text-white');
+                btn.classList.add('text-purple-600');
+            });
+
+            // Show selected section and update tab
+            if (tab === 'search') {
+                document.getElementById('searchSection').classList.remove('hidden');
+                document.getElementById('searchTab').classList.add('bg-purple-600', 'text-white');
+                document.getElementById('searchTab').classList.remove('text-purple-600');
+            } else if (tab === 'newInvoice') {
+                document.getElementById('newInvoiceSection').classList.remove('hidden');
+                document.getElementById('newInvoiceTab').classList.add('bg-purple-600', 'text-white');
+                document.getElementById('newInvoiceTab').classList.remove('text-purple-600');
+            } else if (tab === 'reports') {
+                document.getElementById('reportsSection').classList.remove('hidden');
+                document.getElementById('reportsTab').classList.add('bg-purple-600', 'text-white');
+                document.getElementById('reportsTab').classList.remove('text-purple-600');
+                initializeReports();
+            }
+        }
+
+        function searchInvoices() {
+            const billNo = document.getElementById('billNoSearch').value.toLowerCase();
+            const customerName = document.getElementById('customerNameSearch').value.toLowerCase();
+            const phone = document.getElementById('phoneSearch').value;
+
+            const results = invoices.filter(invoice => {
+                return (billNo === '' || invoice.id.toLowerCase().includes(billNo)) &&
+                       (customerName === '' || invoice.customerName.toLowerCase().includes(customerName)) &&
+                       (phone === '' || invoice.phone.includes(phone));
+            });
+
+            displaySearchResults(results);
+        }
+
+        function showAllInvoices() {
+            displaySearchResults(invoices);
+        }
+
+        function displaySearchResults(results) {
+            const resultsDiv = document.getElementById('searchResults');
+            const listDiv = document.getElementById('searchResultsList');
+
+            if (results.length === 0) {
+                listDiv.innerHTML = '<p class="text-gray-500 text-center py-4">No invoices found matching your search criteria.</p>';
+            } else {
+                listDiv.innerHTML = results.map(invoice => `
+                    <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:shadow-md transition-shadow cursor-pointer" onclick="showInvoiceDetails('${invoice.id}')">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h4 class="font-semibold text-lg text-purple-700">${invoice.id}</h4>
+                                <p class="text-gray-600">${invoice.customerName} • ${invoice.phone}</p>
+                                <p class="text-sm text-gray-500">${invoice.date}</p>
+                                <div class="flex gap-2 mt-2">
+                                    <span class="px-2 py-1 text-xs rounded-full ${invoice.type === 'purchase' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">
+                                        ${invoice.type === 'purchase' ? 'Purchase' : 'Order'}
+                                    </span>
+                                    ${invoice.type === 'order' ? `<span class="px-2 py-1 text-xs rounded-full ${invoice.orderStatus === 'ready' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                                        ${invoice.orderStatus === 'ready' ? 'Ready' : 'Pending'}
+                                    </span>` : ''}
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="status-${invoice.status} text-white px-3 py-1 rounded-full text-sm font-medium mb-2">
+                                    ${getStatusText(invoice.status)}
+                                </div>
+                                <p class="font-semibold">₹${invoice.subtotal.toFixed(2)}</p>
+                                <p class="text-sm text-gray-600">Paid: ₹${invoice.amountPaid.toFixed(2)}</p>
+                                ${invoice.balance !== 0 ? `<p class="text-sm font-medium ${invoice.balance > 0 ? 'text-red-600' : 'text-blue-600'}">
+                                    ${invoice.balance > 0 ? 'Pending: ₹' + invoice.balance.toFixed(2) : 'Excess: ₹' + Math.abs(invoice.balance).toFixed(2)}
+                                </p>` : ''}
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-3">
+                            <strong>Items:</strong>
+                            <ul class="mt-1">
+                                ${invoice.items.map(item => `<li>• ${item.desc} - Qty: ${item.qty} × ₹${item.price.toFixed(2)} = ₹${item.total.toFixed(2)}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="text-xs text-gray-500 bg-gray-50 p-2 rounded">
+                            Click to view full invoice details
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            resultsDiv.classList.remove('hidden');
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'paid': return 'Fully Paid';
+                case 'pending': return 'Pending Payment';
+                case 'excess': return 'Excess Payment';
+                default: return 'Unknown';
+            }
+        }
+
+        function addItem() {
+            const itemsDiv = document.getElementById('itemsList');
+            const newItem = document.createElement('div');
+            newItem.className = 'item-row grid grid-cols-12 gap-2 mb-2';
+            newItem.innerHTML = `
+                <input type="text" placeholder="Dress description" class="col-span-4 px-3 py-2 border border-gray-300 rounded-lg item-desc">
+                <input type="number" placeholder="1" class="col-span-2 px-3 py-2 border border-gray-300 rounded-lg item-qty" value="1" onchange="calculateItemTotal(this)">
+                <input type="number" placeholder="0.00" class="col-span-2 px-3 py-2 border border-gray-300 rounded-lg item-price" onchange="calculateItemTotal(this)">
+                <input type="number" class="col-span-2 px-3 py-2 border border-gray-300 rounded-lg item-total bg-gray-50" readonly>
+                <button onclick="removeItem(this)" class="col-span-2 bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition-colors">Remove</button>
+            `;
+            itemsDiv.appendChild(newItem);
+        }
+
+        function removeItem(button) {
+            button.parentElement.remove();
+            calculateSubtotal();
+        }
+
+        function calculateItemTotal(input) {
+            const row = input.parentElement;
+            const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+            const price = parseFloat(row.querySelector('.item-price').value) || 0;
+            const total = qty * price;
+            row.querySelector('.item-total').value = total.toFixed(2);
+            calculateSubtotal();
+        }
+
+        function calculateSubtotal() {
+            const totals = document.querySelectorAll('.item-total');
+            let subtotal = 0;
+            totals.forEach(total => {
+                subtotal += parseFloat(total.value) || 0;
+            });
+            document.getElementById('subtotal').value = subtotal.toFixed(2);
+            calculateBalance();
+        }
+
+        function calculateBalance() {
+            const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+            const balance = subtotal - amountPaid;
+            document.getElementById('balance').value = balance.toFixed(2);
+        }
+
+        function saveInvoice() {
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+            const balance = parseFloat(document.getElementById('balance').value) || 0;
+            const invoiceType = document.querySelector('input[name="invoiceType"]:checked').value;
+
+            if (!customerName || !customerPhone || subtotal === 0) {
+                alert('Please fill in all required fields and add at least one item.');
+                return;
+            }
+
+            const items = [];
+            document.querySelectorAll('.item-row').forEach(row => {
+                const desc = row.querySelector('.item-desc').value;
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const total = parseFloat(row.querySelector('.item-total').value) || 0;
+                
+                if (desc && qty > 0 && price > 0) {
+                    items.push({ desc, qty, price, total });
+                }
+            });
+
+            let status = 'paid';
+            if (balance > 0) status = 'pending';
+            else if (balance < 0) status = 'excess';
+
+            const newInvoice = {
+                id: `INV${String(currentInvoiceId).padStart(3, '0')}`,
+                customerName,
+                phone: customerPhone,
+                date: new Date().toISOString().split('T')[0],
+                type: invoiceType,
+                items,
+                subtotal,
+                amountPaid,
+                balance,
+                status
+            };
+
+            if (invoiceType === 'order') {
+                newInvoice.orderStatus = 'pending';
+            }
+
+            invoices.push(newInvoice);
+            currentInvoiceId++;
+
+            // Clear form
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('subtotal').value = '';
+            document.getElementById('amountPaid').value = '';
+            document.getElementById('balance').value = '';
+            document.getElementById('typePurchase').checked = true;
             
-            // Show selected section
-            document.getElementById(section + 'Section').classList.remove('hidden');
+            // Reset items to one row
+            const itemsList = document.getElementById('itemsList');
+            const itemRows = itemsList.querySelectorAll('.item-row');
+            itemRows.forEach((row, index) => {
+                if (index === 0) {
+                    row.querySelectorAll('input').forEach(input => input.value = '');
+                    row.querySelector('.item-qty').value = '1';
+                } else {
+                    row.remove();
+                }
+            });
+
+            alert(`Invoice ${newInvoice.id} saved successfully!`);
+        }
+
+        function saveAndPrintInvoice() {
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+            const balance = parseFloat(document.getElementById('balance').value) || 0;
+            const invoiceType = document.querySelector('input[name="invoiceType"]:checked').value;
+
+            if (!customerName || !customerPhone || subtotal === 0) {
+                alert('Please fill in all required fields and add at least one item.');
+                return;
+            }
+
+            const items = [];
+            document.querySelectorAll('.item-row').forEach(row => {
+                const desc = row.querySelector('.item-desc').value;
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const total = parseFloat(row.querySelector('.item-total').value) || 0;
+                
+                if (desc && qty > 0 && price > 0) {
+                    items.push({ desc, qty, price, total });
+                }
+            });
+
+            let status = 'paid';
+            if (balance > 0) status = 'pending';
+            else if (balance < 0) status = 'excess';
+
+            const newInvoice = {
+                id: `INV${String(currentInvoiceId).padStart(3, '0')}`,
+                customerName,
+                phone: customerPhone,
+                date: new Date().toISOString().split('T')[0],
+                type: invoiceType,
+                items,
+                subtotal,
+                amountPaid,
+                balance,
+                status
+            };
+
+            if (invoiceType === 'order') {
+                newInvoice.orderStatus = 'pending';
+            }
+
+            invoices.push(newInvoice);
+            currentInvoiceId++;
+
+            // Show success message
+            alert(`Invoice ${newInvoice.id} saved successfully!`);
+
+            // Print the invoice
+            printInvoice(newInvoice.id);
+
+            // Clear form
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('subtotal').value = '';
+            document.getElementById('amountPaid').value = '';
+            document.getElementById('balance').value = '';
+            document.getElementById('typePurchase').checked = true;
             
-            // Update tab styles
-            const tabs = ['pagesTab', 'blogTab', 'mediaTab', 'menusTab', 'seoTab'];
-            tabs.forEach(tab => {
-                const element = document.getElementById(tab);
-                element.classList.remove('border-green-500', 'text-green-600');
-                element.classList.add('border-transparent', 'text-gray-500');
+            // Reset items to one row
+            const itemsList = document.getElementById('itemsList');
+            const itemRows = itemsList.querySelectorAll('.item-row');
+            itemRows.forEach((row, index) => {
+                if (index === 0) {
+                    row.querySelectorAll('input').forEach(input => input.value = '');
+                    row.querySelector('.item-qty').value = '1';
+                } else {
+                    row.remove();
+                }
+            });
+        }
+
+        let currentModalInvoice = null;
+
+        function showInvoiceDetails(invoiceId) {
+            const invoice = invoices.find(inv => inv.id === invoiceId);
+            if (!invoice) return;
+
+            currentModalInvoice = invoice;
+            
+            const modalContent = document.getElementById('invoiceModalContent');
+            modalContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Invoice Information</h3>
+                        <div class="space-y-2">
+                            <p><strong>Invoice ID:</strong> ${invoice.id}</p>
+                            <p><strong>Date:</strong> ${invoice.date}</p>
+                            <p><strong>Type:</strong> <span class="px-2 py-1 text-xs rounded-full ${invoice.type === 'purchase' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${invoice.type === 'purchase' ? 'Purchase' : 'Order'}</span></p>
+                            <p><strong>Payment Status:</strong> <span class="status-${invoice.status} text-white px-2 py-1 rounded-full text-sm">${getStatusText(invoice.status)}</span></p>
+                            ${invoice.type === 'order' ? `
+                                <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                                    <p class="font-semibold text-gray-800 mb-3">Order Status Management:</p>
+                                    <div class="mb-3">
+                                        <span class="text-sm text-gray-600">Current Status: </span>
+                                        <span class="px-3 py-1 text-sm rounded-full font-medium ${
+                                            invoice.orderStatus === 'pending' ? 'bg-yellow-500 text-white' : 
+                                            invoice.orderStatus === 'packed' ? 'bg-blue-500 text-white' : 
+                                            'bg-green-500 text-white'
+                                        }">
+                                            ${invoice.orderStatus === 'pending' ? 'Pending' : invoice.orderStatus === 'packed' ? 'Packed' : 'Ready'}
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <button onclick="selectOrderStatus('${invoice.id}', 'pending')" class="px-4 py-2 text-sm rounded-lg font-medium transition-colors ${invoice.orderStatus === 'pending' ? 'bg-yellow-500 text-white cursor-default' : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border border-yellow-300'}" id="status-pending-${invoice.id}">
+                                            📋 Set Pending
+                                        </button>
+                                        <button onclick="selectOrderStatus('${invoice.id}', 'packed')" class="px-4 py-2 text-sm rounded-lg font-medium transition-colors ${invoice.orderStatus === 'packed' ? 'bg-blue-500 text-white cursor-default' : 'bg-blue-100 text-blue-800 hover:bg-blue-200 border border-blue-300'}" id="status-packed-${invoice.id}">
+                                            📦 Mark Packed
+                                        </button>
+                                        <button onclick="selectOrderStatus('${invoice.id}', 'ready')" class="px-4 py-2 text-sm rounded-lg font-medium transition-colors ${invoice.orderStatus === 'ready' ? 'bg-green-500 text-white cursor-default' : 'bg-green-100 text-green-800 hover:bg-green-200 border border-green-300'}" id="status-ready-${invoice.id}">
+                                            ✅ Mark Ready
+                                        </button>
+                                    </div>
+                                    <div class="flex gap-2 items-center">
+                                        <button onclick="saveOrderStatus('${invoice.id}')" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium" id="save-status-${invoice.id}" style="display: none;">
+                                            💾 Save Status Update
+                                        </button>
+                                        <button onclick="cancelStatusUpdate('${invoice.id}')" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-colors" id="cancel-status-${invoice.id}" style="display: none;">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">Select a new status above, then click Save to confirm the update</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Customer Information</h3>
+                        <div class="space-y-2">
+                            <p><strong>Name:</strong> ${invoice.customerName}</p>
+                            <p><strong>Phone:</strong> ${invoice.phone}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Items</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Description</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Quantity</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Price</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${invoice.items.map(item => `
+                                    <tr>
+                                        <td class="border border-gray-300 px-4 py-2">${item.desc}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">${item.qty}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-right">₹${item.price.toFixed(2)}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-right">₹${item.total.toFixed(2)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-4 bg-gray-50 p-4 rounded-lg">
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600">Subtotal</p>
+                        <p class="text-xl font-bold text-gray-800">₹${invoice.subtotal.toFixed(2)}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600">Amount Paid</p>
+                        <p class="text-xl font-bold text-green-600">₹${invoice.amountPaid.toFixed(2)}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600">Balance</p>
+                        <p class="text-xl font-bold ${invoice.balance > 0 ? 'text-red-600' : invoice.balance < 0 ? 'text-blue-600' : 'text-gray-800'}">
+                            ₹${invoice.balance.toFixed(2)}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('invoiceModal').classList.remove('hidden');
+        }
+
+        function closeInvoiceModal() {
+            document.getElementById('invoiceModal').classList.add('hidden');
+            currentModalInvoice = null;
+        }
+
+        function printCurrentInvoice() {
+            if (currentModalInvoice) {
+                printInvoice(currentModalInvoice.id);
+            }
+        }
+
+        let selectedStatus = {};
+
+        function selectOrderStatus(invoiceId, newStatus) {
+            const invoice = invoices.find(inv => inv.id === invoiceId);
+            if (!invoice || invoice.type !== 'order') return;
+            
+            // Don't allow selecting the current status
+            if (invoice.orderStatus === newStatus) return;
+            
+            // Store the selected status
+            selectedStatus[invoiceId] = newStatus;
+            
+            // Update button appearances
+            const buttons = ['pending', 'packed', 'ready'];
+            buttons.forEach(status => {
+                const button = document.getElementById(`status-${status}-${invoiceId}`);
+                if (button) {
+                    if (status === newStatus) {
+                        // Highlight selected status
+                        button.className = button.className.replace(/bg-\w+-\d+/g, '').replace(/text-\w+-\d+/g, '');
+                        button.className += ' bg-purple-500 text-white border-2 border-purple-600';
+                    } else if (status === invoice.orderStatus) {
+                        // Keep current status styled normally
+                        button.className = button.className.replace(/bg-purple-\d+|border-purple-\d+|border-2/g, '');
+                        if (status === 'pending') {
+                            button.className += ' bg-yellow-500 text-white cursor-default';
+                        } else if (status === 'packed') {
+                            button.className += ' bg-blue-500 text-white cursor-default';
+                        } else {
+                            button.className += ' bg-green-500 text-white cursor-default';
+                        }
+                    } else {
+                        // Reset other buttons to default style
+                        button.className = button.className.replace(/bg-purple-\d+|border-purple-\d+|border-2/g, '');
+                        if (status === 'pending') {
+                            button.className += ' bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border border-yellow-300';
+                        } else if (status === 'packed') {
+                            button.className += ' bg-blue-100 text-blue-800 hover:bg-blue-200 border border-blue-300';
+                        } else {
+                            button.className += ' bg-green-100 text-green-800 hover:bg-green-200 border border-green-300';
+                        }
+                    }
+                }
             });
             
-            // Activate current tab
-            const activeTab = document.getElementById(section + 'Tab');
-            activeTab.classList.remove('border-transparent', 'text-gray-500');
-            activeTab.classList.add('border-green-500', 'text-green-600');
+            // Show save and cancel buttons
+            document.getElementById(`save-status-${invoiceId}`).style.display = 'block';
+            document.getElementById(`cancel-status-${invoiceId}`).style.display = 'block';
         }
 
-        // Invoice functions
-        function showCreateInvoice() {
-            document.getElementById('createInvoiceModal').classList.remove('hidden');
-            document.getElementById('createInvoiceModal').classList.add('flex');
-        }
-
-        function hideCreateInvoice() {
-            document.getElementById('createInvoiceModal').classList.add('hidden');
-            document.getElementById('createInvoiceModal').classList.remove('flex');
-        }
-
-        function createInvoice(event) {
-            event.preventDefault();
-            alert('Invoice created successfully! This would normally save to the database.');
-            hideCreateInvoice();
-            // Refresh the invoices table here
-        }
-
-        function addProduct() {
-            const productsList = document.getElementById('productsList');
-            const newProduct = document.createElement('div');
-            newProduct.className = 'flex items-center gap-4 p-4 border border-gray-200 rounded-lg';
-            newProduct.innerHTML = `
-                <select class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                    <option>🌿 Turmeric Capsules - $29.99</option>
-                    <option>🌿 Vitamin D3 - $24.99</option>
-                    <option>🫖 Green Tea - $19.99</option>
-                    <option>🌸 Lavender Oil - $34.99</option>
-                    <option>🥥 MCT Oil - $39.99</option>
-                    <option>🍯 Manuka Honey - $49.99</option>
-                </select>
-                <input type="number" placeholder="Qty" min="1" value="1" class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                <button type="button" onclick="removeProduct(this)" class="text-red-600 hover:text-red-800 px-2">🗑️</button>
-            `;
-            productsList.appendChild(newProduct);
-        }
-
-        function removeProduct(button) {
-            button.parentElement.remove();
-        }
-
-        function viewInvoice(invoiceId) {
-            // Populate invoice details based on ID
-            document.getElementById('invoiceDetailsTitle').textContent = `Invoice ${invoiceId}`;
-            document.getElementById('invoiceNumber').textContent = invoiceId;
+        function saveOrderStatus(invoiceId) {
+            const newStatus = selectedStatus[invoiceId];
+            if (!newStatus) return;
             
-            // Show the modal
-            document.getElementById('invoiceDetailsModal').classList.remove('hidden');
-            document.getElementById('invoiceDetailsModal').classList.add('flex');
+            const invoice = invoices.find(inv => inv.id === invoiceId);
+            if (invoice && invoice.type === 'order') {
+                invoice.orderStatus = newStatus;
+                
+                // Show success message
+                const statusText = newStatus === 'pending' ? 'Pending' : newStatus === 'packed' ? 'Packed' : 'Ready';
+                alert(`Order ${invoiceId} status successfully updated to: ${statusText}`);
+                
+                // Clear selected status
+                delete selectedStatus[invoiceId];
+                
+                // Refresh the modal content
+                showInvoiceDetails(invoiceId);
+                
+                // If search results are visible, refresh them too
+                const searchResults = document.getElementById('searchResults');
+                if (!searchResults.classList.contains('hidden')) {
+                    // Re-run the last search to refresh the display
+                    const billNo = document.getElementById('billNoSearch').value;
+                    const customerName = document.getElementById('customerNameSearch').value;
+                    const phone = document.getElementById('phoneSearch').value;
+                    
+                    if (billNo || customerName || phone) {
+                        searchInvoices();
+                    } else {
+                        showAllInvoices();
+                    }
+                }
+            }
         }
 
-        function hideInvoiceDetails() {
-            document.getElementById('invoiceDetailsModal').classList.add('hidden');
-            document.getElementById('invoiceDetailsModal').classList.remove('flex');
-        }
-
-        function downloadInvoice(invoiceId) {
-            alert(`Downloading invoice ${invoiceId}... This would generate a PDF file.`);
-        }
-
-        function sendReminder(invoiceId) {
-            alert(`Sending payment reminder for invoice ${invoiceId}... This would send an email to the customer.`);
-        }
-
-        function printInvoice() {
-            alert('Printing invoice... This would open the print dialog.');
-        }
-
-        function downloadInvoicePDF() {
-            alert('Downloading PDF... This would generate and download a PDF file.');
-        }
-
-        function emailInvoice() {
-            alert('Sending email... This would send the invoice to the customer.');
-        }
-
-        // Credit functions
-        function addCredit() {
-            document.getElementById('addCreditModal').classList.remove('hidden');
-            document.getElementById('addCreditModal').classList.add('flex');
-        }
-
-        function hideAddCredit() {
-            document.getElementById('addCreditModal').classList.add('hidden');
-            document.getElementById('addCreditModal').classList.remove('flex');
-        }
-
-        function processAddCredit(event) {
-            event.preventDefault();
-            alert('Credit added successfully! This would update the customer\'s credit balance.');
-            hideAddCredit();
-        }
-
-        function applyCreditToInvoice() {
-            alert('Applying credit to invoice... This would reduce the invoice amount by the available credit.');
-        }
-
-        // Product functions
-        function addNewProduct() {
-            alert('Add New Product functionality coming soon!');
-        }
-
-        function editProduct(sku) {
-            alert(`Editing product ${sku}... This would open the product edit form.`);
-        }
-
-        function viewProduct(sku) {
-            alert(`Viewing product ${sku}... This would show detailed product information.`);
-        }
-
-        function restockProduct(sku) {
-            alert(`Restocking product ${sku}... This would open the inventory management form.`);
-        }
-
-        // Customer functions
-        function addNewCustomer() {
-            alert('Add New Customer functionality coming soon!');
-        }
-
-        function viewCustomer(customerId) {
-            alert(`Viewing customer ${customerId}... This would show detailed customer information.`);
-        }
-
-        function editCustomer(customerId) {
-            alert(`Editing customer ${customerId}... This would open the customer edit form.`);
-        }
-
-        // CMS functions
-        function createNewPage() {
-            alert('Create New Page functionality coming soon!');
-        }
-
-        function editPage(pageId) {
-            alert(`Editing page ${pageId}... This would open the page editor.`);
-        }
-
-        function previewPage(pageId) {
-            alert(`Previewing page ${pageId}... This would open the page in a new tab.`);
-        }
-
-        function duplicatePage(pageId) {
-            alert(`Duplicating page ${pageId}... This would create a copy of the page.`);
-        }
-
-        function publishPage(pageId) {
-            alert(`Publishing page ${pageId}... This would make the page live on the website.`);
-        }
-
-        function createNewPost() {
-            alert('Create New Post functionality coming soon!');
-        }
-
-        function editPost(postId) {
-            alert(`Editing post ${postId}... This would open the post editor.`);
-        }
-
-        function viewPost(postId) {
-            alert(`Viewing post ${postId}... This would open the post in a new tab.`);
-        }
-
-        function publishPost(postId) {
-            alert(`Publishing post ${postId}... This would make the post live on the website.`);
-        }
-
-        function uploadMedia() {
-            alert('Upload Media functionality coming soon!');
-        }
-
-        function selectMedia(filename) {
-            alert(`Selected media file: ${filename}`);
-        }
-
-        function createNewMenu() {
-            alert('Create New Menu functionality coming soon!');
-        }
-
-        function editMenuItem(itemId) {
-            alert(`Editing menu item ${itemId}... This would open the menu item editor.`);
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(event) {
-            const billingDropdown = document.getElementById('billingDropdown');
-            const contentDropdown = document.getElementById('contentDropdown');
-            const userMenu = document.getElementById('userMenu');
+        function cancelStatusUpdate(invoiceId) {
+            // Clear selected status
+            delete selectedStatus[invoiceId];
             
-            if (!billingDropdown.contains(event.target)) {
-                document.getElementById('billingMenu').classList.add('hidden');
-                document.getElementById('billingChevron').style.transform = 'rotate(0deg)';
+            // Refresh the modal to reset button states
+            showInvoiceDetails(invoiceId);
+        }
+
+        function printInvoice(invoiceId) {
+            const invoice = invoices.find(inv => inv.id === invoiceId);
+            if (!invoice) return;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Invoice ${invoice.id}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .invoice-details { margin-bottom: 20px; }
+                        .customer-details { margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                        .total-row { font-weight: bold; }
+                        .status { padding: 5px 10px; border-radius: 15px; color: white; display: inline-block; }
+                        .status-paid { background-color: #10b981; }
+                        .status-pending { background-color: #f59e0b; }
+                        .status-excess { background-color: #3b82f6; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Elegant Dress Shop</h1>
+                        <h2>INVOICE</h2>
+                    </div>
+                    
+                    <div class="invoice-details">
+                        <p><strong>Invoice ID:</strong> ${invoice.id}</p>
+                        <p><strong>Date:</strong> ${invoice.date}</p>
+                        <p><strong>Status:</strong> <span class="status status-${invoice.status}">${getStatusText(invoice.status)}</span></p>
+                    </div>
+                    
+                    <div class="customer-details">
+                        <h3>Bill To:</h3>
+                        <p><strong>${invoice.customerName}</strong></p>
+                        <p>Phone: ${invoice.phone}</p>
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${invoice.items.map(item => `
+                                <tr>
+                                    <td>${item.desc}</td>
+                                    <td>${item.qty}</td>
+                                    <td>₹${item.price.toFixed(2)}</td>
+                                    <td>₹${item.total.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    
+                    <div style="text-align: right;">
+                        <p><strong>Subtotal: ₹${invoice.subtotal.toFixed(2)}</strong></p>
+                        <p><strong>Amount Paid: ₹${invoice.amountPaid.toFixed(2)}</strong></p>
+                        <p><strong>Balance: ₹${invoice.balance.toFixed(2)}</strong></p>
+                    </div>
+                    
+                    <div style="margin-top: 40px; text-align: center; color: #666;">
+                        <p>Thank you for your business!</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function initializeReports() {
+            // Set default date range (current month)
+            const now = new Date();
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            
+            document.getElementById('startDate').value = firstDay.toISOString().split('T')[0];
+            document.getElementById('endDate').value = lastDay.toISOString().split('T')[0];
+            
+            generateReport();
+        }
+
+        function generateReport() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates.');
+                return;
             }
             
-            if (!contentDropdown.contains(event.target)) {
-                document.getElementById('contentMenu').classList.add('hidden');
-                document.getElementById('contentChevron').style.transform = 'rotate(0deg)';
-            }
+            // Filter invoices by date range
+            const filteredInvoices = invoices.filter(invoice => {
+                const invoiceDate = new Date(invoice.date);
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                return invoiceDate >= start && invoiceDate <= end;
+            });
             
-            if (!event.target.closest('.relative')) {
-                userMenu.classList.add('hidden');
-            }
-        });
+            // Calculate summary statistics
+            const totalSales = filteredInvoices.reduce((sum, inv) => sum + inv.subtotal, 0);
+            const totalInvoices = filteredInvoices.length;
+            const pendingAmount = filteredInvoices.filter(inv => inv.status === 'pending').reduce((sum, inv) => sum + inv.balance, 0);
+            const avgInvoice = totalInvoices > 0 ? totalSales / totalInvoices : 0;
+            
+            // Update summary cards
+            document.getElementById('totalSales').textContent = `₹${totalSales.toFixed(2)}`;
+            document.getElementById('totalInvoices').textContent = totalInvoices;
+            document.getElementById('pendingAmount').textContent = `₹${pendingAmount.toFixed(2)}`;
+            document.getElementById('avgInvoice').textContent = `₹${avgInvoice.toFixed(2)}`;
+            
+            // Generate detailed table
+            const tableBody = document.getElementById('reportTableBody');
+            tableBody.innerHTML = filteredInvoices.map(invoice => `
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">${invoice.id}</td>
+                    <td class="border border-gray-300 px-4 py-2">${invoice.date}</td>
+                    <td class="border border-gray-300 px-4 py-2">${invoice.customerName}</td>
+                    <td class="border border-gray-300 px-4 py-2">${invoice.phone}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-right">₹${invoice.subtotal.toFixed(2)}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-right">₹${invoice.amountPaid.toFixed(2)}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-right ${invoice.balance > 0 ? 'text-red-600' : invoice.balance < 0 ? 'text-blue-600' : ''}">₹${invoice.balance.toFixed(2)}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-center">
+                        <span class="status-${invoice.status} text-white px-2 py-1 rounded-full text-xs">${getStatusText(invoice.status)}</span>
+                    </td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('reportDetails').classList.remove('hidden');
+        }
 
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Organic Health CRM loaded successfully!');
-        });
+        function printReport() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const totalSales = document.getElementById('totalSales').textContent;
+            const totalInvoices = document.getElementById('totalInvoices').textContent;
+            const pendingAmount = document.getElementById('pendingAmount').textContent;
+            const avgInvoice = document.getElementById('avgInvoice').textContent;
+            
+            const tableBody = document.getElementById('reportTableBody').innerHTML;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Business Report - ${startDate} to ${endDate}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .summary { display: flex; justify-content: space-around; margin-bottom: 30px; }
+                        .summary-card { text-align: center; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                        .status-paid { background-color: #10b981; }
+                        .status-pending { background-color: #f59e0b; }
+                        .status-excess { background-color: #3b82f6; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Elegant Dress Shop</h1>
+                        <h2>Business Report</h2>
+                        <p>Period: ${startDate} to ${endDate}</p>
+                    </div>
+                    
+                    <div class="summary">
+                        <div class="summary-card">
+                            <h3>Total Sales</h3>
+                            <p><strong>${totalSales}</strong></p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Total Invoices</h3>
+                            <p><strong>${totalInvoices}</strong></p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Pending Amount</h3>
+                            <p><strong>${pendingAmount}</strong></p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Avg Invoice Value</h3>
+                            <p><strong>${avgInvoice}</strong></p>
+                        </div>
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Phone</th>
+                                <th>Amount</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableBody}
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Initialize with search tab
+        switchTab('search');
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98d866a5e7ce178a',t:'MTc2MDI5MTAyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9937f3c777d7802e',t:'MTc2MTI5Mjk1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
